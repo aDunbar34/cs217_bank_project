@@ -34,8 +34,9 @@ public class Account {
         return accountBalance;
     }
 
+    @Override
     public String toString(){
-        return accountName + " £" + accountBalance;
+        return "Account Name: " + accountName + " Balance:£ " + accountBalance;
     }
 
 
