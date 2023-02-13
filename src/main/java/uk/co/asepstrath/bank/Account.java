@@ -5,13 +5,16 @@ import java.math.RoundingMode;
 
 public class Account {
     BigDecimal accountBalance;
+    String accountName;
 
     public Account(){
         accountBalance = new BigDecimal(0);
     }
 
-    public Account(double amount){
+    public Account(double amount, String name){
+
         accountBalance = BigDecimal.valueOf(amount);
+        accountName = name;
     }
 
     public void deposit(double amount) {
@@ -31,4 +34,13 @@ public class Account {
         return accountBalance;
     }
 
+    @Override
+    public String toString(){
+        return "Account Name: " + accountName + " Balance:£ " + accountBalance;
+    }
+
+
 }
+
+
+
