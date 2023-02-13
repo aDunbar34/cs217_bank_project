@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class App extends Jooby {
 
@@ -67,6 +68,15 @@ public class App extends Jooby {
         } catch (SQLException e) {
             log.error("Database Creation Error",e);
         }
+
+        ArrayList<Account> accList = new ArrayList<Account>();
+        accList.add(new Account(50.00, "Rachel"));
+        accList.add(new Account(1000.00, "Monica"));
+        accList.add(new Account(76.00, "Phoebe"));
+        accList.add(new Account(23.90, "Joey"));
+        accList.add(new Account(3.00, "Chandler"));
+        accList.add(new Account(54.32, "Ross"));
+
     }
 
     /*
