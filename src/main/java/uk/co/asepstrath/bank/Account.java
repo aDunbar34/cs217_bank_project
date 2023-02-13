@@ -34,4 +34,11 @@ public class Account {
         return accountBalance;
     }
 
+    public String toString(){
+        return accountName + " £" + accountBalance;
+    }
+
+
 }
+
+
