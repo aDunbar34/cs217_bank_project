@@ -5,7 +5,9 @@ import java.math.RoundingMode;
 
 public class Account {
     BigDecimal accountBalance;
+
     String accountName;
+
 
     public Account(){
         accountBalance = new BigDecimal(0);
