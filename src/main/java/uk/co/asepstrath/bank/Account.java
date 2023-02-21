@@ -3,7 +3,7 @@ package uk.co.asepstrath.bank;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Account {
+public class Account{
     BigDecimal accountBalance;
 
     String accountName;

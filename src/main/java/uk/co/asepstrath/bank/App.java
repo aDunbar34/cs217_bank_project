@@ -45,10 +45,13 @@ public class App extends Jooby {
         onStop(() -> onStop());
     }
 
+
+
     public static void main(final String[] args) {
         runApp(args, App::new);
     }
 
+    static ArrayList<Account> accList = new ArrayList<Account>();
     /*
     This function will be called when the application starts up,
     it should be used to ensure that the DB is properly setup
@@ -69,7 +72,6 @@ public class App extends Jooby {
             log.error("Database Creation Error",e);
         }
 
-        ArrayList<Account> accList = new ArrayList<Account>();
         accList.add(new Account(50.00, "Rachel"));
         accList.add(new Account(1000.00, "Monica"));
         accList.add(new Account(76.00, "Phoebe"));
@@ -86,5 +88,9 @@ public class App extends Jooby {
         System.out.println("Shutting Down...");
     }
 
+
+    public static String displayAccounts(){
+        return accList.toString();
+    }
 }
 
