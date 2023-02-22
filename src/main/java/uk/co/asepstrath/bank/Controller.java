@@ -22,9 +22,9 @@ import java.util.Random;
 public class Controller {
 
     @GET
-    public String accounts() {
+    public ArrayList<Account> accounts() {
 
-        return App.displayAccounts().toString();
+        return App.displayAccounts();
     }
 
     @GET("/JSON")

@@ -24,7 +24,7 @@ public class IntegrationTest {
                 .build();
 
         try (Response rsp = client.newCall(req).execute()) {
-            assertEquals("[Account Name: Rachel Balance:Â£ 50.0, Account Name: Monica Balance:Â£ 1000.0, Account Name: Phoebe Balance:Â£ 76.0, Account Name: Joey Balance:Â£ 23.9, Account Name: Chandler Balance:Â£ 3.0, Account Name: Ross Balance:Â£ 54.32]", rsp.body().string());
+            assertEquals("[Rachel50.0, Monica1000.0, Phoebe76.0, Joey23.9, Chandler3.0, Ross54.32]", rsp.body().string());
             assertEquals(StatusCode.OK.value(), rsp.code());
         }
     }
