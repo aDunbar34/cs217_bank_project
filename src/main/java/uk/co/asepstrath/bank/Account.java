@@ -14,7 +14,6 @@ public class Account{
     }
 
     public Account(String name, double amount){
-
         accountBalance = BigDecimal.valueOf(amount);
         accountName = name;
     }
@@ -34,6 +33,10 @@ public class Account{
 
     public BigDecimal getBalance() {
         return accountBalance;
+    }
+
+    public String getAccountName() {
+        return accountName;
     }
 
     @Override

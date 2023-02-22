@@ -6,6 +6,7 @@ import io.jooby.StatusCode;
 import io.jooby.annotations.*;
 import io.jooby.exception.StatusCodeException;
 import kong.unirest.Unirest;
+import org.h2.util.json.JSONObject;
 import org.slf4j.Logger;
 
 import javax.sql.DataSource;
@@ -17,37 +18,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.math.BigDecimal;
 
 @Path("/accounts")
 public class Controller {
 
     @GET
     public ArrayList<Account> accounts() {
-
         return App.displayAccounts();
     }
 
     @GET("/JSON")
     public String displayJSON(){
-        App app = new App();
-        app.onStart();
         String json = new Gson().toJson(App.displayAccounts());
         return json;
     }
 
     @GET("/table")
     public ModelAndView displaytable(){
-     Map<String, Object> model = new HashMap<>();
-     ArrayList <Account> data = App.displayAccounts();
-     model.put("users", data);
-     return new ModelAndView("AccountTable.html", model);
+        Map<String, Object> model = new HashMap<>();
+        ArrayList <Account> data = App.displayAccounts();
+        model.put("users", data);
+        return new ModelAndView("AccountTable.hbs", model);
     }
-
-
-
-
 }
-
-
-
-

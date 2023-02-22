@@ -79,7 +79,6 @@ public class App extends Jooby {
         accList.add(new Account("Joey", 23.90));
         accList.add(new Account("Chandler", 3.00));
         accList.add(new Account("Ross", 54.32));
-
     }
 
     /*
@@ -88,7 +87,6 @@ public class App extends Jooby {
     public void onStop() {
         System.out.println("Shutting Down...");
     }
-
 
     public static ArrayList<Account> displayAccounts(){
         return accList;
