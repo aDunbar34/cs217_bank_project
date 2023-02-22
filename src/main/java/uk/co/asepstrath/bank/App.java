@@ -37,6 +37,7 @@ public class App extends Jooby {
         Logger log = getLog();
 
         mvc(new ExampleController(ds,log));
+        mvc(new Controller());
 
         /*
         Finally we register our application lifecycle methods
@@ -89,8 +90,8 @@ public class App extends Jooby {
     }
 
 
-    public static String displayAccounts(){
-        return accList.toString();
+    public static ArrayList<Account> displayAccounts(){
+        return accList;
     }
 }
 
