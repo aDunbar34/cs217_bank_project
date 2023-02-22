@@ -13,7 +13,7 @@ public class Account{
         accountBalance = new BigDecimal(0);
     }
 
-    public Account(double amount, String name){
+    public Account(String name, double amount){
 
         accountBalance = BigDecimal.valueOf(amount);
         accountName = name;

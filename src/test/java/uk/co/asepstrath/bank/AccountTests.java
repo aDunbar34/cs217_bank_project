@@ -24,27 +24,27 @@ public class AccountTests {
 
     @Test
     public void Test2(){
-        Account a = new Account(20, "Zoe");
+        Account a = new Account("Zoe", 20);
         a.deposit(50);
         Assertions.assertEquals(70, a.getBalance().intValue());
     }
 
     @Test
     public void Test3(){
-        Account a = new Account(40,"Luke");
+        Account a = new Account("Luke",40);
         a.withdraw(20);
         Assertions.assertEquals(20, a.getBalance().intValue());
     }
 
     @Test
     public void Test4(){
-        Account a = new Account(30, "George");
+        Account a = new Account("George", 30);
         Assertions.assertThrows(ArithmeticException.class, () -> a.withdraw(100));
     }
 
     @Test
     public void Test5(){
-        Account a = new Account(20, "Lucy");
+        Account a = new Account("Lucy", 20);
         for(int x=0; x<5; x++)
             a.deposit(10);
         for(int x=0; x<3; x++)
@@ -54,14 +54,14 @@ public class AccountTests {
 
     @Test
     public void Test6(){
-        Account a = new Account(5.45, "Bob");
+        Account a = new Account("Bob", 5.45);
         a.deposit(17.56);
         Assertions.assertEquals(a.getBalance(), BigDecimal.valueOf(23.01));
     }
 
     @Test
     public void Test7(){
-        Account a = new Account(500, "Lauren");
+        Account a = new Account("Lauren", 500);
         Assertions.assertEquals("Lauren500.0", a.toString());
     }
 }
