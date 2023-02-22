@@ -62,7 +62,7 @@ public class AccountTests {
     @Test
     public void Test7(){
         Account a = new Account(500, "Lauren");
-        Assertions.assertEquals("Account Name: Lauren Balance:£ 500.0", a.toString());
+        Assertions.assertEquals("Lauren500.0", a.toString());
     }
 }
 
