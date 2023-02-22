@@ -73,13 +73,12 @@ public class App extends Jooby {
             log.error("Database Creation Error",e);
         }
 
-        accList.add(new Account(50.00, "Rachel"));
-        accList.add(new Account(1000.00, "Monica"));
-        accList.add(new Account(76.00, "Phoebe"));
-        accList.add(new Account(23.90, "Joey"));
-        accList.add(new Account(3.00, "Chandler"));
-        accList.add(new Account(54.32, "Ross"));
-
+        accList.add(new Account("Rachel", 50.00));
+        accList.add(new Account("Monica", 1000.00));
+        accList.add(new Account("Phoebe", 76.00));
+        accList.add(new Account("Joey", 23.90));
+        accList.add(new Account("Chandler", 3.00));
+        accList.add(new Account("Ross", 54.32));
     }
 
     /*
@@ -88,7 +87,6 @@ public class App extends Jooby {
     public void onStop() {
         System.out.println("Shutting Down...");
     }
-
 
     public static ArrayList<Account> displayAccounts(){
         return accList;

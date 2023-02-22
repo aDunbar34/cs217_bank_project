@@ -3,15 +3,7 @@
 
 
 <head>
-    <style>
-table, th, td {
-  border: 1px solid black;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
+
 <script type = "text/javascript" src = "Accounts.js"></script>
 </head>
 
@@ -27,8 +19,7 @@ table.center {
     </tr>
     {{#users}}
     <tr>
-
-        <td>{{name}}</td>
+        <td>{{accountName}}</td>
         <td>£{{balance}}</td>
     </tr>
     {{/users}}
@@ -36,4 +27,3 @@ table.center {
 
 </body>
 </html>
-
