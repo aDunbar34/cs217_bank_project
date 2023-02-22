@@ -89,8 +89,8 @@ public class App extends Jooby {
     }
 
 
-    public static String displayAccounts(){
-        return accList.toString();
+    public static ArrayList<Account> displayAccounts(){
+        return accList;
     }
 }
 
