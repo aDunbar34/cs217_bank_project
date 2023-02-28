@@ -29,8 +29,6 @@ public class Controller {
 
     @GET("/JSON")
     public String displayJSON(){
-        App app = new App();
-        app.onStart();
         String json = new Gson().toJson(App.displayAccounts());
         return json;
     }
@@ -40,7 +38,7 @@ public class Controller {
      Map<String, Object> model = new HashMap<>();
      ArrayList <Account> data = App.displayAccounts();
      model.put("users", data);
-     return new ModelAndView("AccountTable.html", model);
+     return new ModelAndView("AccountTable.hbs", model);
     }
 
 
