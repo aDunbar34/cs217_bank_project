@@ -36,9 +36,11 @@ public class Controller {
 
     @GET("/table")
     public ModelAndView displaytable(){
+
         Map<String, Object> model = new HashMap<>();
         ArrayList <Account> data = App.displayAccounts();
         model.put("users", data);
         return new ModelAndView("AccountTable.hbs", model);
+
     }
 }
