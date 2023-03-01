@@ -4,10 +4,35 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Account{
-    BigDecimal accountBalance;
-
+    String id;
     String accountName;
+    BigDecimal accountBalance;
+    String currency;
+    String accountType;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
     public Account(){
         accountBalance = new BigDecimal(0);
@@ -46,6 +71,3 @@ public class Account{
 
 
 }
-
-
-

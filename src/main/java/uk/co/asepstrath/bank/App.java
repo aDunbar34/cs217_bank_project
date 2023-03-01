@@ -1,5 +1,7 @@
 package uk.co.asepstrath.bank;
 
+import kong.unirest.GenericType;
+import kong.unirest.Unirest;
 import uk.co.asepstrath.bank.example.ExampleController;
 import io.jooby.Jooby;
 import io.jooby.handlebars.HandlebarsModule;
@@ -8,12 +10,15 @@ import io.jooby.hikari.HikariModule;
 import org.slf4j.Logger;
 
 import javax.sql.DataSource;
+import java.net.http.HttpResponse;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-public class App extends Jooby {
+public class App<accList> extends Jooby {
 
     {
         /*
@@ -65,10 +70,34 @@ public class App extends Jooby {
         DataSource ds = require(DataSource.class);
         // Open Connection to DB
         try (Connection connection = ds.getConnection()) {
-            //
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("CREATE TABLE `Example` (`Key` varchar(255),`Value` varchar(255))");
-            stmt.executeUpdate("INSERT INTO Example " + "VALUES ('WelcomeMessage', 'Welcome to A Bank')");
+
+            HttpResponse<ArrayList<Account>> arrayResponse =
+                    (HttpResponse<ArrayList<Account>>) Unirest.get("https://api.asep-strath.co.uk/api/team6/accounts").asObject(new GenericType<List<Account>>() {});
+            ArrayList arrayObject = (ArrayList) arrayResponse.body();
+//            stmt.executeUpdate("CREATE TABLE `accountInfo` (id String PRIMARY KEY, accountName String, accountBalance BigDecimal, currency String, accountType String)");
+//            stmt.executeUpdate("INSERT INTO accountInfo " + "VALUES ('WelcomeMessage', 'Welcome to A Bank')");
+            Statement stmnt = connection.createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS accounts (\n"
+                    + " id text PRIMARY KEY,\n"
+                    + " accountName text NOT NULL,\n"
+                    + " accountBalance decimal NOT NULL,\n"
+                    + " currency text NOT NULL,\n"
+                    + " accountType text NOT NULL);";
+
+            stmt.execute(sql);
+
+            for (Object i: arrayObject) {
+                String sql2 = "INSERT INTO employees (id, accountName, accountBalance, currency, accountType) "
+                        + "VALUES (?,?,?,?,?)"; // Note: the ?s are important
+                PreparedStatement prep = connection.prepareStatement(sql);
+                prep.setString(1, "gfjfdkgfdk");
+                prep.setString(2, "Bob");
+                prep.setDouble(3, 35000.00);
+                prep.setString(4, "Pounds");
+                prep.setString(5, "Savings");
+                prep.executeUpdate();
+            }
         } catch (SQLException e) {
             log.error("Database Creation Error",e);
         }
@@ -92,4 +121,3 @@ public class App extends Jooby {
         return accList;
     }
 }
-
