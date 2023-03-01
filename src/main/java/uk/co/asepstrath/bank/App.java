@@ -6,8 +6,10 @@ import io.jooby.handlebars.HandlebarsModule;
 import io.jooby.helper.UniRestExtension;
 import io.jooby.hikari.HikariModule;
 import org.slf4j.Logger;
+import io.jooby.OpenAPIModule;
 
 import javax.sql.DataSource;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +24,7 @@ public class App extends Jooby {
         install(new UniRestExtension());
         install(new HandlebarsModule());
         install(new HikariModule("mem"));
+        install(new OpenAPIModule());
 
         /*
         This will host any files in src/main/resources/assets on <host>/assets
@@ -37,7 +40,7 @@ public class App extends Jooby {
         Logger log = getLog();
 
         mvc(new ExampleController(ds,log));
-        mvc(new Controller());
+        mvc(new Controller(ds,log));
 
         /*
         Finally we register our application lifecycle methods
@@ -63,6 +66,8 @@ public class App extends Jooby {
 
         // Fetch DB Source
         DataSource ds = require(DataSource.class);
+        Controller control1 = new Controller(ds,log);
+        ArrayList<Account> accdata = control1.fetchData();
         // Open Connection to DB
         try (Connection connection = ds.getConnection()) {
             //
