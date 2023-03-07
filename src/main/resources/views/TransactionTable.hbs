@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+<script type = "text/javascript" src = "Transactions.js"></script>
+</head>
+
+
+<body>
+
+<h1>Transaction Data</h1>
+
+<table>
+    <tr>
+        <th><u><h1>Withdraw Account</h1><u></th>
+        <th><u><h1>Deposit Account</h1><u></th>
+        <th><u><h1>Timestamp</h1><u></th>
+        <th><u><h1>Id</h1><u></th>
+        <th><u><h1>Amount</h1><u></th>
+        <th><u><h1>Currency</h1><u></th>
+
+    </tr>
+    {{#TransactionRequests}}
+    <tr>
+        <td>{{withdrawAccount}}</td>
+        <td>{{depositAccount}}</td>
+        <td>{{timestamp}}</td>
+        <td>{{id}}</td>
+        <td>{{amount}}</td>
+        <td>{{currency}}</td>
+    </tr>
+    {{/TransactionRequests}}
+</table>
+
+</body>
+</html>
