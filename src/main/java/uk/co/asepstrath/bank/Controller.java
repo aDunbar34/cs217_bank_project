@@ -47,9 +47,31 @@ public class Controller {
         return parseJSON(jsonResult);
     }
 
+    public ArrayList<Transaction> fetchTransactionData() {
+        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions")
+                .asJson()
+                .getBody());
+        return parseTransactionJSON(jsonResult);
+    }
+
+    public ArrayList<Transaction> parseTransactionJSON(String res) {
+        Gson gson = new Gson();
+        Type transactionListType = new TypeToken<ArrayList<Transaction>>() {
+        }.getType();
+        ArrayList<Transaction> transactionList = null;
+        try {
+            transactionList = gson.fromJson(res, transactionListType);
+        } catch (JsonParseException e) {
+            // Handle the exception here
+            e.printStackTrace();
+        }
+        return transactionList;
+    }
+
     public ArrayList<Account> parseJSON(String res) {
         Gson gson = new Gson();
-        Type accountListType = new TypeToken<ArrayList<Account>>(){}.getType();
+        Type accountListType = new TypeToken<ArrayList<Account>>() {
+        }.getType();
         ArrayList<Account> accountList = null;
         try {
             accountList = gson.fromJson(res, accountListType);
@@ -61,19 +83,24 @@ public class Controller {
     }
 
 
-
-
-
     @GET("/JSON")
-    public String displayJSON(){
+    public String displayJSON() {
         String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/accounts")
                 .asJson()
                 .getBody());
         return jsonResult;
     }
 
+    @GET("/TransactionJSON")
+    public String displayTransactionJSON() {
+        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/Transactions")
+                .asJson()
+                .getBody());
+        return jsonResult;
+    }
+
     @GET("/table")
-    public ModelAndView displaytable(){
+    public ModelAndView displaytable() {
         Map<String, Object> model = new HashMap<>();
         try (Connection connection = dataSource.getConnection()) {
             Statement stmt = connection.createStatement();
@@ -97,4 +124,32 @@ public class Controller {
         }
         return new ModelAndView("AccountTable.hbs", model);
     }
+
+    @GET("/TransactionTable")
+    public ModelAndView displayTransactiontable() {
+        Map<String, Object> model = new HashMap<>();
+        try (Connection connection = dataSource.getConnection()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions ORDER BY name ASC");
+            ArrayList<Transaction> data = new ArrayList<>();
+            while (rs.next()) {
+                String withdrawAccount = rs.getString("withdrawAccount");
+                String depositAccount = rs.getString("depositAccount");
+                String timestamp = rs.getString("timestamp");
+                String id = rs.getString("id");
+                double amount = rs.getDouble("amount");
+                String currency = rs.getString("currency");
+                Transaction transaction = new Transaction(withdrawAccount, depositAccount, timestamp, id, amount, currency);
+                data.add(transaction);
+            }
+            model.put("TransactionRequests", data);
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            logger.error("Error fetching data from database", e);
+            model.put("error", "Error fetching data from database");
+        }
+        return new ModelAndView("TransactionTable.hbs", model);
+    }
+
 }

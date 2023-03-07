@@ -83,6 +83,7 @@ public class Account{
     /*
             ADDITIONAL FUNCTIONS
      */
+
     @Override
     public String toString(){
         if (name == null || balance == null) {
