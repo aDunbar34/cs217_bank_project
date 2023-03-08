@@ -30,6 +30,13 @@ public class IntegrationTest {
             String view = modelandview.getView();
             Assertions.assertEquals(view, "AccountTable.hbs");
         });
+
+        router.get("/TransactionTable", context, rsp -> {
+            ModelAndView modelandview = (ModelAndView) rsp.value();
+            Assertions.assertNotEquals(modelandview, null);
+            String view = modelandview.getView();
+            Assertions.assertEquals(view, "TransactionTable.hbs");
+        });
     }
 
     /*
@@ -40,6 +47,10 @@ public class IntegrationTest {
     void testStatusCode(int serverPort) throws IOException {
         Request req = new Request.Builder().url("http://localhost:" + serverPort + "/table").build();
         Response rsp = client.newCall(req).execute();
+        assertEquals(StatusCode.OK.value(), rsp.code());
+
+        req = new Request.Builder().url("http://localhost:" + serverPort + "/TransactionTable").build();
+        rsp = client.newCall(req).execute();
         assertEquals(StatusCode.OK.value(), rsp.code());
     }
 
