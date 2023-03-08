@@ -39,7 +39,7 @@ table tbody tr:nth-child(odd) {
 
 <h1>Account Data</h1>
 
-<input type="text" id="searchBox" placeholder="Search...">
+<input type="text" id="searchInput" placeholder="Search...">
 <table id="myTable">
     <thead>
     <tr>
@@ -55,68 +55,84 @@ table tbody tr:nth-child(odd) {
     <tr>
         <td>{{id}}</td>
         <td>{{name}}</td>
-        <td>£{{balance}}</td>
+        <td>{{balance}}</td>
         <td>{{currency}}</td>
         <td>{{accountType}}</td>
     </tr>
     {{/users}}
 </table>
-
+<div id="pagination"></div>
 </body>
 
-<button id="prev">Previous</button>
-<button id="next">Next</button>
-
 <script>
-const table = document.getElementById('myTable');
-const rows = table.tBodies[0].rows;
-const numRows = rows.length;
-const numPages = Math.ceil(numRows / 20);
-let currentPage = 0;
+const table = document.getElementById("myTable");
+const searchInput = document.getElementById("searchInput");
+const pagination = document.getElementById("pagination");
 
-function showPage(page) {
-  const startIndex = page * 20;
-  const endIndex = startIndex + 20;
+let currentPage = 1;
+let rowsPerPage = 20;
 
-  for (let i = 0; i < numRows; i++) {
-    rows[i].style.display = (i >= startIndex && i < endIndex) ? '' : 'none';
+function displayTableRows() {
+  let rows = table.rows;
+  let totalRows = rows.length;
+  let startIndex = (currentPage - 1) * rowsPerPage;
+  let endIndex = startIndex + rowsPerPage;
+
+  for (let i = 0; i < totalRows; i++) {
+    if (i < startIndex || i >= endIndex) {
+      rows[i].style.display = "none";
+    } else {
+      rows[i].style.display = "";
+    }
   }
 }
 
-document.getElementById('prev').addEventListener('click', () => {
-  if (currentPage > 0) {
-    currentPage--;
-    showPage(currentPage);
-  }
-});
+function generatePaginationLinks() {
+  let totalRows = table.rows.length;
+  let totalPages = Math.ceil(totalRows / rowsPerPage);
+  let links = "";
 
-document.getElementById('next').addEventListener('click', () => {
-  if (currentPage < numPages - 1) {
-    currentPage++;
-    showPage(currentPage);
-  }
-});
-
-showPage(currentPage);
-</script>
-
-<script>
-const searchBox = document.getElementById('search-input');
-const rows = table.getElementsByTagName('td');
-
-searchInput.addEventListener('input', function() {
-const searchText = searchBox.value.toLowerCase();
-
-  for (let i = 1; i < rows.length; i++) {
-    const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
-
-    if (name.includes(searchText)) {
-      rows[i].style.display = '';
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === currentPage) {
+      links += `<span>${i}</span>`;
     } else {
-      rows[i].style.display = 'none';
+      links += `<a href="#" onclick="changePage(${i})">${i}</a>`;
     }
   }
-});
+
+  pagination.innerHTML = links;
+}
+
+function changePage(page) {
+  currentPage = page;
+  displayTableRows();
+  generatePaginationLinks();
+}
+
+function searchTable() {
+  let searchText = searchInput.value.toLowerCase();
+  let rows = table.rows;
+
+  for (let i = 1; i < rows.length; i++) {
+    let rowText = rows[i].textContent.toLowerCase();
+
+    if (rowText.includes(searchText)) {
+      rows[i].style.display = "";
+    } else {
+      rows[i].style.display = "none";
+    }
+  }
+
+  currentPage = 1;
+  generatePaginationLinks();
+}
+
+displayTableRows();
+generatePaginationLinks();
+
+searchInput.addEventListener("input", searchTable);
+
+
 
     </script>
 
