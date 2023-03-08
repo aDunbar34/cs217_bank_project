@@ -3,8 +3,29 @@
 
 
 <head>
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-<script type = "text/javascript" src = "Accounts.js"></script>
+th, td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid black;
+}
+.hidden {
+  display: none;
+}
+.show-more {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+}
+</style>
+
+
+
 </head>
 
 
@@ -12,15 +33,18 @@
 
 <h1>Account Data</h1>
 
-<table>
+
+<table id = "myTable">
+    <thead>
     <tr>
-        <th><u><h1>Account ID</h1><u></th>
-        <th><u><h1>Name</h1><u></th>
-        <th><u><h1>Balance</h1><u></th>
-        <th><u><h1>Currency</h1><u></th>
-        <th><u><h1>Account Type</h1><u></th>
+        <th><u><h1>Account ID</h1></u></th>
+        <th><u><h1>Name</h1></u></th>
+        <th><u><h1>Balance</h1></u></th>
+        <th><u><h1>Currency</h1></u></th>
+        <th><u><h1>Account Type</h1></u></th>
 
     </tr>
+    </thead>
     {{#users}}
     <tr>
         <td>{{id}}</td>
@@ -33,4 +57,42 @@
 </table>
 
 </body>
+
+<button id="prev">Previous</button>
+<button id="next">Next</button>
+
+<script>
+const table = document.getElementById('myTable');
+const rows = table.tBodies[0].rows;
+const numRows = rows.length;
+const numPages = Math.ceil(numRows / 20);
+let currentPage = 0;
+
+function showPage(page) {
+  const startIndex = page * 20;
+  const endIndex = startIndex + 20;
+
+  for (let i = 0; i < numRows; i++) {
+    rows[i].style.display = (i >= startIndex && i < endIndex) ? '' : 'none';
+  }
+}
+
+document.getElementById('prev').addEventListener('click', () => {
+  if (currentPage > 0) {
+    currentPage--;
+    showPage(currentPage);
+  }
+});
+
+document.getElementById('next').addEventListener('click', () => {
+  if (currentPage < numPages - 1) {
+    currentPage++;
+    showPage(currentPage);
+  }
+});
+
+showPage(currentPage);
+    </script>
+
 </html>
+
