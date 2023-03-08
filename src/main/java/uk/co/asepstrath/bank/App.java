@@ -48,12 +48,14 @@ public class App<accList> extends Jooby {
     it should be used to ensure that the DB is properly setup
      */
     static ArrayList<Account> acc = new ArrayList<Account>();
+    static ArrayList<Transaction> tra = new ArrayList<Transaction>();
     public void onStart() {
         Logger log = getLog();
         log.info("Starting Up...");
         DataSource ds = require(DataSource.class);
         Controller con = new Controller(ds,log);
         ArrayList<Account> acc = con.fetchData();
+        ArrayList<Transaction> tra = con.fetchTransactionData();
         // Open Connection to DB
         try (Connection connection = ds.getConnection()) {
             //Populate The Database
@@ -80,6 +82,35 @@ public class App<accList> extends Jooby {
         } catch (SQLException e) {
             log.error("Database Creation Error", e);
         }
+
+        // Open Connection to DB
+        try (Connection connection = ds.getConnection()) {
+            //Populate The Database
+            String sql = "CREATE TABLE IF NOT EXISTS transactions (\n"
+                    + " withdrawAccount varchar(50),\n"
+                    + " depositAccount varchar(50),\n"
+                    + " time_stamp varchar(50),\n"
+                    + " transactionId varchar(50) PRIMARY KEY,\n"
+                    + " amount double,\n"
+                    + " currency text);";
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(sql);
+            }
+            sql = "INSERT INTO transactions (withdrawAccount, depositAccount, time_stamp, transactionId, amount, currency) "
+                    + "VALUES (?,?,?,?,?,?)";
+            PreparedStatement prep = connection.prepareStatement(sql);
+            for(Transaction transaction : tra) {
+                prep.setString(1, transaction.getWithdrawAccount());
+                prep.setString(2, transaction.getDepositAccount());
+                prep.setString(3, transaction.getTimestamp());
+                prep.setString(4, transaction.getId());
+                prep.setDouble(5, transaction.getAmount());
+                prep.setString(6, transaction.getCurrency());
+                prep.executeUpdate();
+            }
+        } catch (SQLException e) {
+            log.error("Database Creation Error", e);
+        }
     }
 
     /*
@@ -91,5 +122,9 @@ public class App<accList> extends Jooby {
 
     public static ArrayList<Account> displayAccounts(){
         return acc;
+    }
+
+    public static ArrayList<Transaction> displayTransactions(){
+        return tra;
     }
 }

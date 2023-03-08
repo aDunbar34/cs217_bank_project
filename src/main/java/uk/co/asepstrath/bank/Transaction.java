@@ -4,28 +4,28 @@ package uk.co.asepstrath.bank;
 import java.math.BigDecimal;
 
 public class Transaction {
-    String WithdrawAccount;
-    String DepositAccount;
+    String withdrawAccount;
+    String depositAccount;
     String timestamp;
     String id;
     BigDecimal amount;
     String currency;
 
     public Transaction(String withdrawAcc, String depositAcc, String time, String transactionId, double transfer, String currencyType){
-        String WithdrawAccount = withdrawAcc;
-        String DepositAccount = depositAcc;
-        String timestamp = time;
-        String id = transactionId;
-        BigDecimal amount = BigDecimal.valueOf(transfer);
-        String currency = currencyType;
+        withdrawAccount = withdrawAcc;
+        depositAccount = depositAcc;
+        timestamp = time;
+        id = transactionId;
+        amount = BigDecimal.valueOf(transfer);
+        currency = currencyType;
     }
 
     public String getWithdrawAccount(){
-        return WithdrawAccount;
+        return withdrawAccount;
     }
 
     public String getDepositAccount(){
-        return DepositAccount;
+        return depositAccount;
     }
 
     public String getTimestamp(){
@@ -46,13 +46,13 @@ public class Transaction {
 
     @Override
     public String toString(){
-        if (WithdrawAccount == null || DepositAccount == null) {
+        /*if (WithdrawAccount == null || DepositAccount == null) {
             return "withdraw or deposit acc id is missing";
-        }
+        }*/
 
         return "Transaction{" +
-                "withdrawAccount=" + WithdrawAccount + '\'' +
-                ", depositAccount=" + DepositAccount + '\'' +
+                "withdrawAccount=" + withdrawAccount + '\'' +
+                ", depositAccount=" + depositAccount + '\'' +
                 ", timestamp=" + timestamp + '\'' +
                 ", id=" + id + '\'' +
                 ", amount='" + amount + '\'' +
