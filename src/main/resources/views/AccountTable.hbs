@@ -14,13 +14,20 @@
 
 <table>
     <tr>
-        <th>Name</th>
-        <th>Balance</th>
+        <th><u><h1>Account ID</h1><u></th>
+        <th><u><h1>Name</h1><u></th>
+        <th><u><h1>Balance</h1><u></th>
+        <th><u><h1>Currency</h1><u></th>
+        <th><u><h1>Account Type</h1><u></th>
+
     </tr>
     {{#users}}
     <tr>
-        <td>{{accountName}}</td>
+        <td>{{id}}</td>
+        <td>{{name}}</td>
         <td>£{{balance}}</td>
+        <td>{{currency}}</td>
+        <td>{{accountType}}</td>
     </tr>
     {{/users}}
 </table>

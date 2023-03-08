@@ -1,26 +1,25 @@
 package uk.co.asepstrath.bank;
 
-
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParseException;
 import io.jooby.ModelAndView;
 import io.jooby.StatusCode;
 import io.jooby.annotations.*;
 import io.jooby.exception.StatusCodeException;
-import io.swagger.annotations.ApiOperation;
-
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import kong.unirest.Unirest;
-import org.graalvm.compiler.word.Word;
-import org.h2.util.json.JSONObject;
-import org.slf4j.Logger;
-import io.swagger.*;
-import java.lang.annotation.Repeatable;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import org.slf4j.Logger;
 
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,64 +30,71 @@ import java.util.Map;
 import java.util.Random;
 import java.math.BigDecimal;
 
-@Path("/accounts")
+@Path("/")
 public class Controller {
-
-    private final DataSource dataSource;
-    private final Logger logger;
+    private DataSource dataSource;
+    private Logger logger;
 
     public Controller(DataSource ds, Logger log) {
         dataSource = ds;
         logger = log;
     }
 
-    @GET("/Data")
-    @ApiResponses({@ApiResponse(message = "Success", code = 200)
-    })
-    @ApiOperation(value = "Display all accounts", notes = "Display all accounts in bank")
-
-
-    public ArrayList<Account> accounts() {
-        return App.displayAccounts();
+    public ArrayList<Account> fetchData() {
+        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/accounts")
+                .asJson()
+                .getBody());
+        return parseJSON(jsonResult);
     }
+
+    public ArrayList<Account> parseJSON(String res) {
+        Gson gson = new Gson();
+        Type accountListType = new TypeToken<ArrayList<Account>>(){}.getType();
+        ArrayList<Account> accountList = null;
+        try {
+            accountList = gson.fromJson(res, accountListType);
+        } catch (JsonParseException e) {
+            // Handle the exception here
+            e.printStackTrace();
+        }
+        return accountList;
+    }
+
+
+
+
 
     @GET("/JSON")
     public String displayJSON(){
-        String json = new Gson().toJson(App.displayAccounts());
-        return json;
-    }
-
-    public ArrayList<Account> fetchData() {
-        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team1/accounts") //get request for all accounts data
+        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/accounts")
                 .asJson()
                 .getBody());
-        return parseJson(jsonResult);
+        return jsonResult;
     }
-
-    public ArrayList<Account> parseJson(String responseBody) {
-        ArrayList<Account> accounts = new ArrayList<>();    //array list to store accounts
-        JSONArray accountsData = new JSONArray(responseBody);   //adds account data from parameter to a JSON array
-        for (int i = 0; i < accountsData.length(); i++) {       //adds account data from JSON array to an Array of objects (Accounts)
-            JSONObject accountData = accountData.getJSONObject(i);
-            accounts.add(new Account(accountData.toString("id"),
-                    accountData.toString("name"),
-                    accountData.getBigDecimal("balance"),
-                    accountData.toString("accountType"),
-                    accountData.toString("currency")));
-        }
-        return accounts;
-    }
-
-
-
 
     @GET("/table")
     public ModelAndView displaytable(){
-
         Map<String, Object> model = new HashMap<>();
-        ArrayList <Account> data = App.displayAccounts();
-        model.put("users", data);
+        try (Connection connection = dataSource.getConnection()) {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM accounts ORDER BY name ASC");
+            ArrayList<Account> data = new ArrayList<>();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                double balance = rs.getDouble("balance");
+                String accountType = rs.getString("accountType");
+                String currency = rs.getString("currency");
+                Account account = new Account(id, name, balance, accountType, currency);
+                data.add(account);
+            }
+            model.put("users", data);
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            logger.error("Error fetching data from database", e);
+            model.put("error", "Error fetching data from database");
+        }
         return new ModelAndView("AccountTable.hbs", model);
-
     }
 }
