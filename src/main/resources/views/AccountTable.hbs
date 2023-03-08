@@ -3,8 +3,35 @@
 
 
 <head>
+    <style>
+table {
+	border-collapse: collapse;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+table td {
+	padding: 15px;
+}
+table thead {
+	background-color: #54585d;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 13px;
+	border: 1px solid #54585d;
+}
+table tbody td {
+	color: #636363;
+	border: 1px solid #dddfe1;
+}
+table tbody tr {
+	background-color: #f9fafb;
+}
+table tbody tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+</style>
 
-<script type = "text/javascript" src = "Accounts.js"></script>
+
+
 </head>
 
 
@@ -12,15 +39,18 @@
 
 <h1>Account Data</h1>
 
-<table>
+<input type="text" id="searchBox" placeholder="Search...">
+<table id="myTable">
+    <thead>
     <tr>
-        <th><u><h1>Account ID</h1><u></th>
-        <th><u><h1>Name</h1><u></th>
-        <th><u><h1>Balance</h1><u></th>
-        <th><u><h1>Currency</h1><u></th>
-        <th><u><h1>Account Type</h1><u></th>
+        <th><u><h1>Account ID</h1></u></th>
+        <th><u><h1>Name</h1></u></th>
+        <th><u><h1>Balance</h1></u></th>
+        <th><u><h1>Currency</h1></u></th>
+        <th><u><h1>Account Type</h1></u></th>
 
     </tr>
+    </thead>
     {{#users}}
     <tr>
         <td>{{id}}</td>
@@ -33,4 +63,62 @@
 </table>
 
 </body>
+
+<button id="prev">Previous</button>
+<button id="next">Next</button>
+
+<script>
+const table = document.getElementById('myTable');
+const rows = table.tBodies[0].rows;
+const numRows = rows.length;
+const numPages = Math.ceil(numRows / 20);
+let currentPage = 0;
+
+function showPage(page) {
+  const startIndex = page * 20;
+  const endIndex = startIndex + 20;
+
+  for (let i = 0; i < numRows; i++) {
+    rows[i].style.display = (i >= startIndex && i < endIndex) ? '' : 'none';
+  }
+}
+
+document.getElementById('prev').addEventListener('click', () => {
+  if (currentPage > 0) {
+    currentPage--;
+    showPage(currentPage);
+  }
+});
+
+document.getElementById('next').addEventListener('click', () => {
+  if (currentPage < numPages - 1) {
+    currentPage++;
+    showPage(currentPage);
+  }
+});
+
+showPage(currentPage);
+</script>
+
+<script>
+const searchBox = document.getElementById('search-input');
+const rows = table.getElementsByTagName('td');
+
+searchInput.addEventListener('input', function() {
+const searchText = searchBox.value.toLowerCase();
+
+  for (let i = 1; i < rows.length; i++) {
+    const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+
+    if (name.includes(searchText)) {
+      rows[i].style.display = '';
+    } else {
+      rows[i].style.display = 'none';
+    }
+  }
+});
+
+    </script>
+
 </html>
+

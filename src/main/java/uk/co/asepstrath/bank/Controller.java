@@ -48,7 +48,7 @@ public class Controller {
     }
 
     public ArrayList<Transaction> fetchTransactionData() {
-        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions")
+        String jsonResult = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/Transactions")
                 .asJson()
                 .getBody());
         return parseTransactionJSON(jsonResult);
@@ -130,13 +130,13 @@ public class Controller {
         Map<String, Object> model = new HashMap<>();
         try (Connection connection = dataSource.getConnection()) {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions ORDER BY name ASC");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions");
             ArrayList<Transaction> data = new ArrayList<>();
             while (rs.next()) {
                 String withdrawAccount = rs.getString("withdrawAccount");
                 String depositAccount = rs.getString("depositAccount");
-                String timestamp = rs.getString("timestamp");
-                String id = rs.getString("id");
+                String timestamp = rs.getString("time_stamp");
+                String id = rs.getString("transactionId");
                 double amount = rs.getDouble("amount");
                 String currency = rs.getString("currency");
                 Transaction transaction = new Transaction(withdrawAccount, depositAccount, timestamp, id, amount, currency);
