@@ -96,25 +96,24 @@
 <table id = "myTable">
     <thead>
     <tr>
-        <th><h1>Withdraw Account</h1></th>
-        <th><h1>Deposit Account</h1></th>
-        <th><h1>Timestamp</h1></th>
-        <th><h1>Transaction ID</h1></th>
-        <th><h1>Amount</h1></th>
-        <th><h1>Currency</h1></th>
+        <th>Name on Account</th>
+        <th>Account ID</th>
+        <th>Initial Balance</th>
+        <th>Current Balance</th>
+        <th>Successful Transactions</th>
+        <th>Failed Transactions</th>
     </tr>
     </thead>
-    {{#transactions}}
+    {{#user}}
         <tr>
-            <td>{{withdrawAcc}}</td>
-            <td>{{depositAcc}}</td>
-            <td>{{timestamp}}</td>
-            <td>{{transactionID}}</td>
-            <td>{{amount}}</td>
-            <td>{{currency}}</td>
+            <td>{{account.name}}</td>
+            <td>{{account.id}}</td>
+            <td>{{initialBalance}}</td>
+            <td>{{account.balance}}</td>
+            <td>{{successfulTransactions}}</td>
+            <td>{{failedTransactions}}</td>
         </tr>
-    {{/transactions}}
+    {{/user}}
 </table>
-
 </body>
 </html>
