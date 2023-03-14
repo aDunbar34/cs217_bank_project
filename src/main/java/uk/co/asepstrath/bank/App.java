@@ -1,5 +1,6 @@
 package uk.co.asepstrath.bank;
 
+import io.jooby.ModelAndView;
 import io.jooby.OpenAPIModule;
 import uk.co.asepstrath.bank.example.ExampleController;
 import io.jooby.Jooby;
@@ -14,6 +15,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class App extends Jooby {
+    {
+        install(new HandlebarsModule());
+    }
+
 
     private static ArrayList <Account> accs  = new ArrayList<>();
 
@@ -120,10 +125,11 @@ public class App extends Jooby {
                     + " timestamp text,\n"
                     + " id varchar(50) PRIMARY KEY,\n"
                     + " amount double ,\n"
-                    + " currency text );";
+                    + " currency text, \n"
+                    + " status integer NOT NULL);";
             statement.execute(sql);
-            sql = "INSERT INTO transactions (withdrawAccount, depositAccount, id, timestamp, amount, currency)" +
-                    "VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO transactions (withdrawAccount, depositAccount, id, timestamp, amount, currency, status)" +
+                    "VALUES (?,?,?,?,?,?,?)";
             PreparedStatement prepared = connection.prepareStatement(sql);
             for(int i = 0; i < transactions.size(); i++){
                 prepared.setString(1, transactions.get(i).getWithdrawAcc());
@@ -132,11 +138,13 @@ public class App extends Jooby {
                 prepared.setString(4, transactions.get(i).getTimestamp());
                 prepared.setDouble(5, transactions.get(i).getAmount());
                 prepared.setString(6, transactions.get(i).getCurrency());
+                prepared.setInt(7, transactions.get(i).getStatus());
                 prepared.executeUpdate();
             }
         } catch(SQLException e) {
             log.error("Cannot Create Database", e );
         }
+        controller.removeFraudulentTransactions();
     }
     /*
     This function will be called when the application shuts down
