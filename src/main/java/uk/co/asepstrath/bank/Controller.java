@@ -21,7 +21,7 @@ public class Controller {
 
 
 
-    @GET("/bank")
+    @GET("/")
     public ModelAndView getHome (){
         return new ModelAndView("home.hbs");
     }
@@ -74,7 +74,7 @@ public class Controller {
 
     public ArrayList<Transaction> fetchTransactionData(){
         String JSON;
-        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions?PageSize=10000").asJson().getBody());
+        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions").asJson().getBody());
         return parseJSONTransaction(JSON);
     }
 

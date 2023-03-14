@@ -8,8 +8,8 @@ public class Account {
 
     String name;
     String id;
-    String accountType;
     String currency;
+    String accType;
 
 
     public Account(String Name, BigDecimal Balance){
@@ -20,8 +20,8 @@ public class Account {
         this.id = id;
         this.name = name;
         this.balance = balance;
-        this.currency = currency;
-        this.accountType = accountType;
+        this.accType = currency;
+        this.currency = accountType;
     }
 
     public Account(String id) {
@@ -43,18 +43,18 @@ public class Account {
         return id;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getAccType() {
+        return accType;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public String getCurrency() {
+        return currency;
     }
 
 
     @Override
     public String toString(){
-        return id + name + balance + currency + accountType;
+        return "Account{id='" + id + "', accountName='" + name + "', accountBalance=" + balance + ", accountType='" + accType + "', currency='" + currency + "'}";
     }
 
 

@@ -1,6 +1,5 @@
 package uk.co.asepstrath.bank;
 
-import io.jooby.ModelAndView;
 import io.jooby.OpenAPIModule;
 import uk.co.asepstrath.bank.example.ExampleController;
 import io.jooby.Jooby;
@@ -73,16 +72,6 @@ public class App extends Jooby {
         accs = controller.fetchAccountData();
         transactions = controller.fetchTransactionData();
 
-        // Populate array with data
-        /*dataset.add(new Account("1","Rachel", BigDecimal.valueOf(50.00)));
-        dataset.add(new Account("Monica", BigDecimal.valueOf(100.00)));
-        dataset.add(new Account("Phoebe", BigDecimal.valueOf(76.00)));
-        dataset.add(new Account("Joey", BigDecimal.valueOf(23.90)));
-        dataset.add(new Account("Chandler", BigDecimal.valueOf(3.00)));
-        dataset.add(new Account("Ross", BigDecimal.valueOf(54.32)));
-        System.out.println(dataset);*/
-
-
         // Open Connection to DB
         try (Connection connection = ds.getConnection()) {
             Statement stmt = connection.createStatement();
@@ -104,12 +93,12 @@ public class App extends Jooby {
             sql = "INSERT INTO accounts (id, name, balance, accountType, currency)" +
                     "VALUES (?,?,?,?,?)";
             PreparedStatement prepared = connection.prepareStatement(sql);
-            for(int i = 0; i < accs.size(); i++){
+            for(int i = 0; i < accs.size(); i++) {
                 prepared.setString(1, accs.get(i).getId());
                 prepared.setString(2, accs.get(i).getName());
                 prepared.setBigDecimal(3, accs.get(i).getBalance());
-                prepared.setString(4, accs.get(i).getCurrency());
-                prepared.setString(5, accs.get(i).getAccountType());
+                prepared.setString(4, accs.get(i).getAccType());
+                prepared.setString(5, accs.get(i).getCurrency());
                 prepared.executeUpdate();
             }
             prepared.close();
