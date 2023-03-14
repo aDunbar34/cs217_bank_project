@@ -60,9 +60,9 @@ public class Controller {
                 String id = rs.getString("id");
                 String name = rs.getString("name");
                 BigDecimal balance = rs.getBigDecimal("balance");
-                String accountType = rs.getString("accountType");
                 String currency = rs.getString("currency");
-                Account user = new Account(id, name, balance, accountType, currency);
+                String accountType = rs.getString("accountType");
+                Account user = new Account(id, name, balance, currency, accountType);
                 accounts.add(user);
             }
             rs.close();
@@ -74,7 +74,7 @@ public class Controller {
 
     public ArrayList<Transaction> fetchTransactionData(){
         String JSON;
-        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions").asJson().getBody());
+        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions?PageSize=1000").asJson().getBody());
         return parseJSONTransaction(JSON);
     }
 

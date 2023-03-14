@@ -20,8 +20,8 @@ public class Account {
         this.id = id;
         this.name = name;
         this.balance = balance;
-        this.accType = currency;
-        this.currency = accountType;
+        this.currency = currency;
+        this.accType = accountType;
     }
 
     public Account(String id) {
