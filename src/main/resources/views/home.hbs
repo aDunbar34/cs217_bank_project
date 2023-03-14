@@ -37,6 +37,16 @@
         table tbody tr:nth-child(odd) {
             background-color: #ffffff;
         }
+
+        p{
+            background-color: #8cadff;
+            color: #3C4F76;
+            font-weight: bold;
+            font-size: 30px;
+            border: 2px solid #4c7254;
+            text-align: center;
+        }
+
         #navMenu {
             margin-top:0px;
             margin-left: 200px ;
@@ -81,7 +91,7 @@
 
 <body>
 <div style = "text-align:center;color:#3C4F76;background-image:url(/assets/background.jpg);border: 2px solid #4c7254;">
-    <h1>Transaction Data</h1>
+    <h1>Welcome to our Bank!</h1>
 </div>
 
 <nav>
@@ -94,27 +104,5 @@
     </ul>
 </nav>
 
-<table id = "myTable">
-    <thead>
-    <tr>
-        <th>Name on Account</th>
-        <th>Account ID</th>
-        <th>Initial Balance</th>
-        <th>Current Balance</th>
-        <th>Successful Transactions</th>
-        <th>Failed Transactions</th>
-    </tr>
-    </thead>
-    {{#user}}
-        <tr>
-            <td>{{account.name}}</td>
-            <td>{{account.id}}</td>
-            <td>{{initialBalance}}</td>
-            <td>{{account.balance}}</td>
-            <td>{{successfulTransactions}}</td>
-            <td>{{failedTransactions}}</td>
-        </tr>
-    {{/user}}
-</table>
+<p>Hey, welcome to our bank! Click the links to see the table!</p>
 </body>
-</html>

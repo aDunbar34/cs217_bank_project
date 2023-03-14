@@ -81,19 +81,20 @@
 
 <body>
 <div style = "text-align:center;color:#3C4F76;background-image:url(/assets/background.jpg);border: 2px solid #4c7254;">
-    <h1>Transaction Data</h1>
+    <h1>Transaction Info</h1>
 </div>
 
 <nav>
     <ul id = "navMenu">
-        <li><a href="">Home</a></li>
+        <li><a href="http://localhost:8080/bank">Home</a></li>
         <li><a href="http://localhost:8080/table">Accounts</a></li>
         <li><a href="http://localhost:8080/TransactionTable">Transactions</a></li>
-        <li><a href="">About</a></li>
+        <li><a href="http://localhost:8080/transactionDetails">Transaction Info</a></li>
+        <li><a href="http://localhost:8080/about">About</a></li>
     </ul>
 </nav>
-
-<table id = "myTable">
+<p style = "text-align:center;margin: auto;display: block;"><input type="text" id="searchInput" placeholder="Search..."></p>
+<table id="myTable">
     <thead>
     <tr>
         <th><h1>Withdraw Account</h1></th>
@@ -115,6 +116,86 @@
         </tr>
     {{/transactions}}
 </table>
-
+<div id="pagination"></div>
 </body>
+
+<script>
+    const table = document.getElementById("myTable");
+    const searchInput = document.getElementById("searchInput");
+    const pagination = document.getElementById("pagination");
+
+    let currentPage = 1;
+    let rowsPerPage = 20;
+
+    function displayTableRows() {
+        let rows = table.rows;
+        let totalRows = rows.length;
+        let startIndex = (currentPage - 1) * rowsPerPage;
+        let endIndex = startIndex + rowsPerPage;
+
+        for (let i = 0; i < totalRows; i++) {
+            if (i < startIndex || i >= endIndex) {
+                rows[i].style.display = "none";
+            } else {
+                rows[i].style.display = "";
+            }
+        }
+    }
+
+    function generatePaginationLinks() {
+        let totalRows = table.rows.length;
+        let totalPages = Math.ceil(totalRows / rowsPerPage);
+        let links = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === currentPage) {
+                links += `<span>${i}</span>`;
+            } else {
+                links += `<a href="#" onclick="changePage(${i})">   ${i}   </a>`;
+            }
+        }
+
+        pagination.innerHTML = links;
+    }
+
+    function changePage(page) {
+        currentPage = page;
+        displayTableRows();
+        generatePaginationLinks();
+    }
+
+    function searchTable() {
+        let searchText = searchInput.value.toLowerCase();
+        let rows = table.rows;
+
+        for (let i = 1; i < rows.length; i++) {
+            let rowText = rows[i].textContent.toLowerCase();
+
+            if (rowText.includes(searchText)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+
+        currentPage = 1;
+        generatePaginationLinks();
+    }
+
+    displayTableRows();
+    generatePaginationLinks();
+
+    searchInput.addEventListener("input", searchTable);
+
+
+
+</script>
+
+
+
+
+
+
+
+
 </html>

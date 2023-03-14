@@ -10,6 +10,7 @@ public class Transaction implements Comparable<Transaction> {
     private final BigDecimal amount; //amount of money in transaction
     private final String currency; //currency of transaction
     private int status = 0; //initially 0, 1 if transaction is successful, -1 if failed
+    private BigDecimal initialBalance;
 
     public Transaction(String withdrawAccount, String depositAccount, String timestamp, String transactionID, BigDecimal amount, String currency){
         this.withdrawAccount = withdrawAccount;
@@ -18,6 +19,8 @@ public class Transaction implements Comparable<Transaction> {
         this.id = transactionID;
         this.amount = amount;
         this.currency = currency;
+        this.status = 0;
+        this.initialBalance = initialBalance;
     }
 
 
@@ -41,31 +44,19 @@ public class Transaction implements Comparable<Transaction> {
         return currency; //gets currency of money involved in transaction
     }
 
-    @Override
-    public String toString(){
-        if(withdrawAccount == null || depositAccount == null){
-            return "some account id missing";
-        }
-        return "Transaction{" + "withdrawAcc =" + withdrawAccount + '\'' +
-                ", depositAcc =" + depositAccount + '\'' +
-                ", depositAcc =" + depositAccount + '\'' +
-                ", timestamp =" + timestamp + '\'' +
-                ", transactionID =" + id + '\'' +
-                ", amount =" + amount + '\'' +
-                ", currency =" + currency + '\'' +
-                '}';
-    }
-
-//    public String getStatusString(){
-//        if(status == 1){
-//            return "Transaction Complete"; //returns Transaction Complete if status = 1
+//    @Override
+//    public String toString(){
+//        if(withdrawAccount == null || depositAccount == null){
+//            return "some account id missing";
 //        }
-//        else if (status == -1){
-//            return "Transaction Failed"; //returns Transaction Failed if status = -1
-//        }
-//        else{
-//            return "Transaction Incomplete"; //else return Transaction Incomplete
-//        }
+//        return "Transaction{" + "withdrawAcc =" + withdrawAccount + '\'' +
+//                ", depositAcc =" + depositAccount + '\'' +
+//                ", depositAcc =" + depositAccount + '\'' +
+//                ", timestamp =" + timestamp + '\'' +
+//                ", transactionID =" + id + '\'' +
+//                ", amount =" + amount + '\'' +
+//                ", currency =" + currency + '\'' +
+//                '}';
 //    }
 
     public void setStatus(int n){
@@ -73,6 +64,7 @@ public class Transaction implements Comparable<Transaction> {
             status = n;
         }
     }
+
     public void transaction(){
         Account withdrawAcc = Controller.getAccountById(withdrawAccount);
         Account depositAcc = Controller.getAccountById(depositAccount);
@@ -89,14 +81,12 @@ public class Transaction implements Comparable<Transaction> {
             }
         }
     }
-
-//    public String generateID(){
-//        //need to discuss how we are going to do this
-//        return null;
-//    }
-
     public int getStatus() {
         return status;
+    }
+
+    public BigDecimal getInitialBalance(){
+        return Controller.getAccountById(withdrawAccount).getBalance();
     }
     @Override
     public int compareTo(Transaction o) {

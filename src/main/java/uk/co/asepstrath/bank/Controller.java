@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.*;
 import java.util.*;
-@Path("/bank")
+@Path("/")
 
 public class Controller {
 
@@ -26,6 +26,17 @@ public class Controller {
         dataSource = ds;
         logger = log;
     }
+
+
+    @GET("/bank")
+    public ModelAndView getHome (){
+        return new ModelAndView("home.hbs");
+    }
+    @GET("/about")
+    public ModelAndView getAbout (){
+        return new ModelAndView("about.hbs");
+    }
+
 
     @GET("/accounts")
     public ArrayList<Account> displayAccounts() { return App.getAccounts(); }
@@ -80,7 +91,7 @@ public class Controller {
 
     public ArrayList<Transaction> fetchTransactionData(){
         String JSON;
-        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions").asJson().getBody());
+        JSON = String.valueOf(Unirest.get("https://api.asep-strath.co.uk/api/Team6/transactions?PageSize=10000").asJson().getBody());
         System.out.println(JSON);
         return parseJSONTransaction(JSON);
     }
@@ -207,11 +218,11 @@ public class Controller {
     @GET("/transactionDetails")
     public ModelAndView transactionDataAcc() {
         ArrayList<TransactionDetails> arrayListTransactionAcc = retrieveDataTransactionAccount();
-        ArrayList<Transaction> array = displayTransaction();
+        ArrayList<Transaction> arr = displayTransaction();
         Map<String, Object> mapTest = new HashMap<>();
         int totalSuccessful = 0;
-        for (Transaction transac : array){
-            if (transac.getStatus() == 1){
+        for (Transaction t : arr){
+            if (t.getStatus() == 1){
                 totalSuccessful ++;
             }
         }
@@ -220,6 +231,10 @@ public class Controller {
         mapTest.put("total", Integer.toString(totalSuccessful)); //total successful transactions is passed in
         return new ModelAndView("TransactionData.hbs", mapTest);
     }
+
+
+
+
 //    @GET("/Table")
 //    public ModelAndView getTable () {
 //        Map<String, Object> model = new HashMap<>();

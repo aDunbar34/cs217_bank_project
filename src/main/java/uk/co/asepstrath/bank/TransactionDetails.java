@@ -10,7 +10,6 @@ public class TransactionDetails {
     private int failedTransactions; //number of failed transactions
     private BigDecimal initialBalance;
 
-
     public TransactionDetails(Account account, ArrayList<Transaction> transactions){
         this.account = account;
         this.transactions = transactions;
@@ -23,19 +22,9 @@ public class TransactionDetails {
     public ArrayList<Transaction> getTransactions(){
         return transactions; //returns all transactions associated with the account
     }
-
     public BigDecimal getInitialBalance(){
-        return initialBalance; //returns the account's initial balance
+        return account.getBalance(); //returns the account's initial balance
     }
-
-//    public BigDecimal getCurrentBalance() {
-//        Account accoutnChange = null;
-//        for (Transaction transac : transactions) { //carries out transaction on the account
-//            transac.transaction();
-//            accoutnChange = Controller.getAccountById(account);
-//        }
-//        return accoutnChange.getBalance();
-//    }
 
     public int getSuccessfulTransactions(){
         successfulTransactions = 0; //initialises the successful transactions to 0
