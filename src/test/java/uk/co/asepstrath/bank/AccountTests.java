@@ -61,7 +61,7 @@ public class AccountTests {
     @Test
     public void Test7(){
         Account a = new Account("testid", "namey mcnameface", new BigDecimal(500),
-                "Auto Loan Account", "GDP");
+                "GDP", "Auto Loan Account");
         Assertions.assertEquals("Account{id='testid', accountName='namey mcnameface', accountBalance=500, accountType='Auto Loan Account', currency='GDP'}", a.toString());
     }
 }
