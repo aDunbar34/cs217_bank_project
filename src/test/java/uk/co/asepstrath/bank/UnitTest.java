@@ -81,8 +81,66 @@
 //        assertEquals("USD", transactions.get(0).getCurrency());
 //        assertEquals("2022-02-22T22:22:22.000Z", transactions.get(0).getTimestamp());
 //    }
+//}
 
 
+package uk.co.asepstrath.bank;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.math.BigDecimal;
+
+public class UnitTest {
+
+    @Test
+    public void testGetWithdrawAcc() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals("A", t.getWithdrawAcc());
+    }
+
+    @Test
+    public void testGetDepositAcc() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals("B", t.getDepositAcc());
+    }
+
+    @Test
+    public void testGetTimestamp() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals("2022-01-01T00:00:00.000Z", t.getTimestamp());
+    }
+
+    @Test
+    public void testGetTransactionID() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals("12345", t.getTransactionID());
+    }
+
+    @Test
+    public void testGetAmount() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals(100.00, t.getAmount());
+    }
+
+    @Test
+    public void testGetCurrency() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        assertEquals("USD", t.getCurrency());
+    }
+
+    @Test
+    public void testSetStatus() {
+        Transaction t = new Transaction("A", "B", "2022-01-01T00:00:00.000Z", "12345", BigDecimal.valueOf(100.00), "USD");
+        t.setStatus(1);
+        assertEquals(1, t.getStatus());
+        t.setStatus(-1);
+        assertEquals(-1, t.getStatus());
+        t.setStatus(2);
+        assertEquals(-1, t.getStatus()); // status should not change when n is outside range
+        t.setStatus(-2);
+        assertEquals(-1, t.getStatus()); // status should not change when n is outside range
+    }
+}
 
 
 
