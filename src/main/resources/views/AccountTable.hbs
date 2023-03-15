@@ -38,7 +38,7 @@
         }
         #navMenu {
             margin-top:0px;
-            margin-left: 200px ;
+            margin-left: 180px ;
             position: relative;
             list-style: none;
         }
@@ -55,10 +55,10 @@
         }
         #navMenu a {
             text-decoration: none;
-            width:200px;
+            width:150px;
             display: block;
             padding: 12px 16px;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
             background-color: #8cadff;
@@ -88,10 +88,11 @@
 
 <nav>
     <ul id = "navMenu">
-        <li><a href="">Home</a></li>
-        <li><a href="">Accounts</a></li>
+        <li><a href="http://localhost:8080/">Home</a></li>
+        <li><a href="http://localhost:8080/table">Accounts</a></li>
         <li><a href="http://localhost:8080/TransactionTable">Transactions</a></li>
-        <li><a href="">About</a></li>
+        <li><a href="http://localhost:8080/transactionDetails">Transaction Info</a></li>
+        <li><a href="http://localhost:8080/about">About</a></li>
     </ul>
 </nav>
 
@@ -107,15 +108,15 @@
 
     </tr>
     </thead>
-    {{#users}}
+    {{#accs}}
         <tr>
             <td>{{id}}</td>
             <td>{{name}}</td>
             <td>{{balance}}</td>
             <td>{{currency}}</td>
-            <td>{{accountType}}</td>
+            <td>{{accType}}</td>
         </tr>
-    {{/users}}
+    {{/accs}}
 </table>
 <div id="pagination"></div>
 </body>
